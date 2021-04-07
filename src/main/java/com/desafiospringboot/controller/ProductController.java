@@ -7,12 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.desafiospringboot.model.Product;
+import com.desafiospringboot.domain.dto.ProductDTO;
+import com.desafiospringboot.domain.model.Product;
 import com.desafiospringboot.service.ProductService;
 
 @RestController
@@ -23,15 +25,20 @@ public class ProductController {
 	private ProductService productService;
 
 	@PostMapping("/products")
-	public ResponseEntity<?> salvar(@RequestBody Product product) {
-		Product obj = productService.insert(product);
+	public ResponseEntity<?> salvar(@RequestBody ProductDTO productDto) {
+		productDto.setId(null);
+		Product obj = productService.fromDTO(productDto);
+		obj = productService.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(product);
+		return ResponseEntity.created(uri).body(obj);
 	}
 
-	public ResponseEntity<?> update(@RequestBody Product product, @PathVariable Long id){
-		product.setId(id);
-		productService.update(product);
-		return ((BodyBuilder) ResponseEntity.notFound()).body(null);
+	@PutMapping("/products/{id}")
+	public ResponseEntity<?> update(@RequestBody ProductDTO productDto, @PathVariable Long id){
+		productDto.setId(id);
+		productService.update(productDto);
+		return ((BodyBuilder) ResponseEntity.notFound()).body(productDto);
 	}
-}
+	
+
+ }

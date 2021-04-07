@@ -1,4 +1,4 @@
-package com.desafiospringboot.model;
+package com.desafiospringboot.domain.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

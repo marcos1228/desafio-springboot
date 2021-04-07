@@ -1,9 +1,12 @@
 package com.desafiospringboot.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.desafiospringboot.model.Product;
+import com.desafiospringboot.domain.dto.ProductDTO;
+import com.desafiospringboot.domain.model.Product;
 import com.desafiospringboot.repository.ProductRepository;
 
 @Service
@@ -16,14 +19,20 @@ public class ProductService {
 		return productRepository.save(product);
 	}
 
-	public Product update(Product product) {
-		// TODO Auto-generated method stub
-		return Product();
+	public ProductDTO update(ProductDTO productDto) {
+		Optional<Product> optional = productRepository.findById(productDto.getId());
+		if (optional.isPresent()) {
+			Product product = optional.get();
+			product.setNome(productDto.getNome());
+			product.setDescricao(productDto.getDescricao());
+			product.setPrice(productDto.getPrice());
+		}
+		return new ProductDTO();
 	}
 
-	private Product Product() {
-		// TODO Auto-generated method stub
-		return null;
+	public Product fromDTO(ProductDTO productDto) {
+		Product product = new Product(null, productDto.getNome(), productDto.getDescricao(), productDto.getPrice());
+		return product;
 	}
 
 }
