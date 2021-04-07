@@ -26,12 +26,18 @@ public class ProductService {
 			product.setNome(productDto.getNome());
 			product.setDescricao(productDto.getDescricao());
 			product.setPrice(productDto.getPrice());
+			productRepository.save(product);
 		}
 		return new ProductDTO();
 	}
 
 	public Product fromDTO(ProductDTO productDto) {
 		Product product = new Product(null, productDto.getNome(), productDto.getDescricao(), productDto.getPrice());
+		return product;
+	}
+
+	public Optional<Product> buscarPorId(Long id) {
+		Optional<Product> product = productRepository.findById(id);
 		return product;
 	}
 

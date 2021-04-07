@@ -1,10 +1,12 @@
 package com.desafiospringboot.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,5 +42,10 @@ public class ProductController {
 		return ((BodyBuilder) ResponseEntity.notFound()).body(productDto);
 	}
 	
+	@GetMapping("/products/{id}")
+	public ResponseEntity<Optional<Product>> buscarPorId(@PathVariable Long id) {
+		Optional<Product> product = productService.buscarPorId(id);
+		return ResponseEntity.ok().body(product);
+	}
 
  }
