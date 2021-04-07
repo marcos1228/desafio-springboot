@@ -16,4 +16,14 @@ public class ProductService {
 		return productRepository.save(product);
 	}
 
+	public Product update(Product product) {
+		// TODO Auto-generated method stub
+		return Product();
+	}
+
+	private Product Product() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
