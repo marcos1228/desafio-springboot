@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,5 +62,10 @@ public class ProductController {
 	@GetMapping("/products")
 	public ResponseEntity<List<ProductDTO>> listar() {
 		return ResponseEntity.ok(productService.listarProduct());
+	}
+	
+	@GetMapping("products/sheach")
+	public ResponseEntity<?> sheach(@Param("nome") String nome){
+		return ResponseEntity.ok(productService.listaPorFiltro(nome));
 	}
 }

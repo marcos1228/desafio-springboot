@@ -61,4 +61,11 @@ public class ProductService {
 		return productDto;
 	}
 
+	public List<Product> listaPorFiltro(String nome) {
+		if (nome != null) {
+			return productRepository.search(nome);
+		}
+		return productRepository.findAll();
+	}
+
 }
