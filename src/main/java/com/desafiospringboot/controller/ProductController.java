@@ -1,11 +1,13 @@
 package com.desafiospringboot.controller;
 
 import java.net.URI;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Description;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,16 +38,28 @@ public class ProductController {
 	}
 
 	@PutMapping("/products/{id}")
-	public ResponseEntity<?> update(@RequestBody ProductDTO productDto, @PathVariable Long id){
+	public ResponseEntity<?> update(@RequestBody ProductDTO productDto, @PathVariable Long id) {
 		productDto.setId(id);
 		productService.update(productDto);
 		return ((BodyBuilder) ResponseEntity.notFound()).body(productDto);
 	}
-	
+
+	@Description("Busca de um produto por ID")
 	@GetMapping("/products/{id}")
-	public ResponseEntity<Optional<Product>> buscarPorId(@PathVariable Long id) {
-		Optional<Product> product = productService.buscarPorId(id);
+	public ResponseEntity<Product> buscarPorId(@PathVariable Long id) {
+		Product product = productService.buscarPorId(id);
 		return ResponseEntity.ok().body(product);
 	}
 
- }
+	@DeleteMapping("/products/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		productService.delete(id);
+		return ResponseEntity.ok().build();
+
+	}
+
+	@GetMapping("/products")
+	public ResponseEntity<List<ProductDTO>> listar() {
+		return ResponseEntity.ok(productService.listarProduct());
+	}
+}

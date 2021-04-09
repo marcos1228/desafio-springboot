@@ -3,6 +3,8 @@ package com.desafiospringboot.domain.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.desafiospringboot.domain.model.Product;
+
 public class ProductDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
@@ -20,6 +22,13 @@ public class ProductDTO implements Serializable {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.price = price;
+	}
+
+	public ProductDTO(Product product) {
+		this.id = product.getId();
+		this.nome = product.getNome();
+		this.descricao = product.getDescricao();
+		this.price = product.getPrice();
 	}
 
 	public Long getId() {
